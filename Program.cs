@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Gitpad
 {
@@ -21,7 +23,23 @@ namespace Gitpad
             int ret = 0;
             if (args.Length == 0)
             {
-                return -1;
+                if (MessageBox.Show("Do you want to install Notepad as your default Git editor?", 
+                    "Installing GitPad", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                {
+                    return -1;
+                }
+
+                var target = new DirectoryInfo(Environment.ExpandEnvironmentVariables(@"%AppData%\GitPad"));
+                if (!target.Exists)
+                {
+                    target.Create();
+                }
+
+                var dest = Environment.ExpandEnvironmentVariables(@"%AppData%\GitPad\GitPad.exe");
+                File.Copy(Assembly.GetExecutingAssembly().Location, dest);
+                Environment.SetEnvironmentVariable("EDITOR", dest, EnvironmentVariableTarget.User);
+
+                return 0;
             }
 
             string fileData = null;
