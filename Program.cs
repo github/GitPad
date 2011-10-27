@@ -126,31 +126,5 @@ namespace Gitpad
 
             return ret.ToString();
         }
-
-        public static IEnumerable<string> InplaceSplit(string inputString, params char[] splitCharacters)
-        {
-            if (splitCharacters.Length == 0)
-            {
-                throw new ArgumentException("Specify at least one character to split on");
-            }
-
-            // This is written as for loops to be snappy, not because I like for
-            // loops :)
-            int start = 0;
-            for(int i = 0; i < inputString.Length; i++)
-            {
-                for (int j = 0; j < splitCharacters.Length; j++)
-                {
-                    if(inputString[i] == splitCharacters[j] && i - start > 0)
-                    {
-                        yield return inputString.Substring(start, i - start);
-                        start = i;
-                        break;
-                    }
-                }
-            }
-
-            yield return inputString.Substring(start);
-        }
     }
 }
