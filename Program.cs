@@ -35,10 +35,10 @@ namespace Gitpad
                     target.Create();
                 }
 
-                var dest = Environment.ExpandEnvironmentVariables(@"%AppData%\GitPad\GitPad.exe");
-                File.Copy(Assembly.GetExecutingAssembly().Location, dest);
-                Environment.SetEnvironmentVariable("EDITOR", dest, EnvironmentVariableTarget.User);
+                var dest = new FileInfo(Environment.ExpandEnvironmentVariables(@"%AppData%\GitPad\GitPad.exe"));
+                File.Copy(Assembly.GetExecutingAssembly().Location, dest.FullName, true);
 
+                Environment.SetEnvironmentVariable("EDITOR", dest.FullName, EnvironmentVariableTarget.User);
                 return 0;
             }
 
