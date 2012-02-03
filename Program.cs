@@ -55,7 +55,7 @@ namespace Gitpad
             try
             {
                 fileData = File.ReadAllText(args[0], Encoding.UTF8);
-                path = Path.GetTempFileName();
+                path = Path.GetRandomFileName() + ".txt";
                 WriteStringToFile(path, fileData, LineEndingType.Windows);
             }
             catch (Exception ex)
@@ -65,10 +65,10 @@ namespace Gitpad
                 goto bail;
             }
 
-            var psi = new ProcessStartInfo(Environment.ExpandEnvironmentVariables(@"%SystemRoot%\System32\Notepad.exe"), path)
+            var psi = new ProcessStartInfo(path)
             {
                 WindowStyle = ProcessWindowStyle.Normal,
-                UseShellExecute = false,
+                UseShellExecute = true,
             };
 
             var proc = Process.Start(psi);
