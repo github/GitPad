@@ -9,6 +9,12 @@ requires one (commits, interactive rebase, etc).
 
 # [Click This Link](https://github.com/downloads/github/GitPad/Gitpad.zip)
 
+## Notepad sucks! What about $FAVORITE\_EDITOR instead?
+
+Good news! As of GitPad 1.2, the default editor will be whatever editor is 
+associated with .txt files. Normally, that's Notepad, but if you like a different
+editor, you can now use that instead.
+
 ## How to install (long version)
 
 Just copy GitPad.exe to a folder and double-click on it. It will install
