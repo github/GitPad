@@ -152,7 +152,6 @@ namespace Gitpad
                     throw new Exception("GetTokenInformation failed");
                 }
 
-                Console.WriteLine(elevationType);
                 return (elevationType == TOKEN_ELEVATION_TYPE.TokenElevationTypeFull);
             }
             finally
