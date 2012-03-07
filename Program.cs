@@ -98,7 +98,7 @@ namespace Gitpad
 
         static void WriteStringToFile(string path, string fileData, LineEndingType lineType)
         {
-            using(var of = File.OpenWrite(path))
+            using(var of = File.Open(path, FileMode.Create))
             {
                 var buf = Encoding.UTF8.GetBytes(ForceLineEndings(fileData, lineType));
                 of.Write(buf, 0, buf.Length);
