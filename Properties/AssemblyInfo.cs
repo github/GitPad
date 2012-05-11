@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("GitHub")]
 [assembly: AssemblyProduct("Gitpad")]
-[assembly: AssemblyCopyright("Copyright © GitHub 2011")]
+[assembly: AssemblyCopyright("Copyright © GitHub 2011-2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
