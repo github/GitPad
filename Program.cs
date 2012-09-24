@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -140,7 +141,7 @@ namespace Gitpad
             IntPtr tokenHandle;
             if (!NativeMethods.OpenProcessToken(NativeMethods.GetCurrentProcess(), NativeMethods.TOKEN_QUERY, out tokenHandle))
             {
-                throw new Exception("OpenProcessToken failed");
+                throw new Exception("OpenProcessToken failed", new Win32Exception());
             }
 
             try
@@ -149,7 +150,7 @@ namespace Gitpad
                 uint dontcare;
                 if (!NativeMethods.GetTokenInformation(tokenHandle, TOKEN_INFORMATION_CLASS.TokenElevationType, out elevationType, (uint)sizeof(TOKEN_ELEVATION_TYPE), out dontcare))
                 {
-                    throw new Exception("GetTokenInformation failed");
+                    throw new Exception("GetTokenInformation failed", new Win32Exception());
                 }
 
                 return (elevationType == TOKEN_ELEVATION_TYPE.TokenElevationTypeFull);
