@@ -138,6 +138,12 @@ namespace Gitpad
 
         public static unsafe bool IsProcessElevated()
         {
+            if (Environment.OSVersion.Version < new Version(6,0,0,0)) 
+            {
+                // Elevation is not a thing.
+                return false;
+            }
+
             IntPtr tokenHandle;
             if (!NativeMethods.OpenProcessToken(NativeMethods.GetCurrentProcess(), NativeMethods.TOKEN_QUERY, out tokenHandle))
             {
