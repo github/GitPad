@@ -93,7 +93,8 @@ namespace Gitpad
             }
 
         bail:
-            File.Delete(path);
+            if (File.Exists(path))
+                File.Delete(path);
             return ret;
         }
 
