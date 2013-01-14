@@ -57,7 +57,7 @@ namespace Gitpad
             {
                 fileData = File.ReadAllText(args[0], Encoding.UTF8);
                 path = Path.GetRandomFileName() + ".txt";
-                WriteStringToFile(path, fileData, LineEndingType.Windows);
+                WriteStringToFile(path, fileData, LineEndingType.Windows, true);
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace Gitpad
             try
             {
                 fileData = File.ReadAllText(path, Encoding.UTF8);
-                WriteStringToFile(args[0], fileData, LineEndingType.Posix);
+                WriteStringToFile(args[0], fileData, LineEndingType.Posix, false);
             }
             catch (Exception ex)
             {
@@ -98,11 +98,13 @@ namespace Gitpad
             return ret;
         }
 
-        static void WriteStringToFile(string path, string fileData, LineEndingType lineType)
+        static void WriteStringToFile(string path, string fileData, LineEndingType lineType, bool emitUTF8Preamble)
         {
             using(var of = File.Open(path, FileMode.Create))
             {
                 var buf = Encoding.UTF8.GetBytes(ForceLineEndings(fileData, lineType));
+                if (emitUTF8Preamble)
+                    of.Write(Encoding.UTF8.GetPreamble(), 0, Encoding.UTF8.GetPreamble().Length);
                 of.Write(buf, 0, buf.Length);
             }
         }
