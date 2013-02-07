@@ -32,7 +32,7 @@ namespace Gitpad
             int ret = 0;
             if (args.Length == 0)
             {
-                if (MessageBox.Show("Do you want to install Notepad as your default Git editor?", 
+                if (MessageBox.Show("Do you want to use your default text editor as your commit editor?", 
                     "Installing GitPad", MessageBoxButtons.YesNo) != DialogResult.Yes)
                 {
                     return -1;
@@ -73,11 +73,24 @@ namespace Gitpad
             };
 
             var proc = Process.Start(psi);
-            proc.WaitForExit();
-            if (proc.ExitCode != 0)
+
+            // See http://stackoverflow.com/questions/3456383/process-start-returns-null
+            // In case of editor reuse (think VS) we can't block on the process so we only have two options. Either try 
+            // to be clever and monitor the file for changes but it's quite possible that users save their file before 
+            // being done with them so we'll go with the semi-sucky method of showing a message on the console
+            if (proc == null)
             {
-                ret = proc.ExitCode;
-                goto bail;
+                Console.WriteLine("Press enter when you're done editing your commit message, or CTRL+C to abort");
+                Console.ReadLine();
+            }
+            else
+            {
+                proc.WaitForExit();
+                if (proc.ExitCode != 0)
+                {
+                    ret = proc.ExitCode;
+                    goto bail;
+                }
             }
 
             try
