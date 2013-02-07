@@ -32,7 +32,7 @@ namespace Gitpad
             int ret = 0;
             if (args.Length == 0)
             {
-                if (MessageBox.Show("Do you want to install Notepad as your default Git editor?", 
+                if (MessageBox.Show("Do you want to use your default text editor as your commit editor?", 
                     "Installing GitPad", MessageBoxButtons.YesNo) != DialogResult.Yes)
                 {
                     return -1;
