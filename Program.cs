@@ -66,7 +66,15 @@ namespace Gitpad
                 goto bail;
             }
 
-            var psi = new ProcessStartInfo(path)
+            var executable = FindExecutable(path);
+
+            if (executable == null || !File.Exists(executable))
+            {
+                Console.Error.WriteLine("Could not find a default text editor, falling back to notepad.");
+                executable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
+            }
+
+            var psi = new ProcessStartInfo(executable, path)
             {
                 WindowStyle = ProcessWindowStyle.Normal,
                 UseShellExecute = true,
@@ -181,6 +189,14 @@ namespace Gitpad
             {
                 NativeMethods.CloseHandle(tokenHandle);
             }
+        }
+
+        public static string FindExecutable(string filename)
+        {
+            var buf = new StringBuilder(1024);
+            var result = NativeMethods.FindExecutable(filename, string.Empty, buf);
+
+            return result >= 32 ? buf.ToString() : null;
         }
     }
 
@@ -376,5 +392,8 @@ namespace Gitpad
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport("shell32.dll", EntryPoint = "FindExecutable")]
+        public static extern long FindExecutable(string lpFile, string lpDirectory, StringBuilder lpResult);
     }
 }
