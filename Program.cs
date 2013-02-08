@@ -72,7 +72,21 @@ namespace Gitpad
                 UseShellExecute = true,
             };
 
-            var proc = Process.Start(psi);
+            Process proc;
+
+            try
+            {
+                proc = Process.Start(psi);
+            }
+            catch
+            {
+                Console.Error.WriteLine("Could not launch the default text editor, falling back to notepad.");
+
+                psi.FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
+                psi.Arguments = path;
+
+                proc = Process.Start(psi);
+            }
 
             // See http://stackoverflow.com/questions/3456383/process-start-returns-null
             // In case of editor reuse (think VS) we can't block on the process so we only have two options. Either try 
@@ -80,6 +94,8 @@ namespace Gitpad
             // being done with them so we'll go with the semi-sucky method of showing a message on the console
             if (proc == null)
             {
+                Console.CancelKeyPress += (s, e) => File.Delete(path);
+
                 Console.WriteLine("Press enter when you're done editing your commit message, or CTRL+C to abort");
                 Console.ReadLine();
             }
