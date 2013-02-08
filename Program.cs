@@ -66,21 +66,36 @@ namespace Gitpad
                 goto bail;
             }
 
-            var executable = FindExecutable(path);
-
-            if (executable == null || !File.Exists(executable))
-            {
-                Console.Error.WriteLine("Could not find a default text editor, falling back to notepad.");
-                executable = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
-            }
-
-            var psi = new ProcessStartInfo(executable, path)
+            var psi = new ProcessStartInfo(path)
             {
                 WindowStyle = ProcessWindowStyle.Normal,
                 UseShellExecute = true,
             };
 
-            var proc = Process.Start(psi);
+            Process proc;
+
+            try
+            {
+                proc = Process.Start(psi);
+            }
+            catch (Win32Exception exc)
+            {
+                // CO_E_APPNOTFOUND -- The editor for this file type is missing. Probably uninstalled or something,
+                // fall back to good old reliable notepad
+                if (exc.NativeErrorCode == -2147221003)
+                {
+                    Console.Error.WriteLine("Could not find a default text editor, falling back to notepad.");
+                    
+                    psi.FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
+                    psi.Arguments = path;
+
+                    proc = Process.Start(psi);
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             // See http://stackoverflow.com/questions/3456383/process-start-returns-null
             // In case of editor reuse (think VS) we can't block on the process so we only have two options. Either try 
@@ -189,14 +204,6 @@ namespace Gitpad
             {
                 NativeMethods.CloseHandle(tokenHandle);
             }
-        }
-
-        public static string FindExecutable(string filename)
-        {
-            var buf = new StringBuilder(1024);
-            var result = NativeMethods.FindExecutable(filename, string.Empty, buf);
-
-            return result >= 32 ? buf.ToString() : null;
         }
     }
 
@@ -392,8 +399,5 @@ namespace Gitpad
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle(IntPtr hObject);
-
-        [DllImport("shell32.dll", EntryPoint = "FindExecutable")]
-        public static extern long FindExecutable(string lpFile, string lpDirectory, StringBuilder lpResult);
     }
 }
