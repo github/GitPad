@@ -80,6 +80,8 @@ namespace Gitpad
             // being done with them so we'll go with the semi-sucky method of showing a message on the console
             if (proc == null)
             {
+                Console.CancelKeyPress += (s, e) => File.Delete(path);
+
                 Console.WriteLine("Press enter when you're done editing your commit message, or CTRL+C to abort");
                 Console.ReadLine();
             }
