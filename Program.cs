@@ -78,23 +78,14 @@ namespace Gitpad
             {
                 proc = Process.Start(psi);
             }
-            catch (Win32Exception exc)
+            catch
             {
-                // CO_E_APPNOTFOUND -- The editor for this file type is missing. Probably uninstalled or something,
-                // fall back to good old reliable notepad
-                if (exc.NativeErrorCode == -2147221003)
-                {
-                    Console.Error.WriteLine("Could not find a default text editor, falling back to notepad.");
-                    
-                    psi.FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
-                    psi.Arguments = path;
+                Console.Error.WriteLine("Could not launch the default text editor, falling back to notepad.");
 
-                    proc = Process.Start(psi);
-                }
-                else
-                {
-                    throw;
-                }
+                psi.FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
+                psi.Arguments = path;
+
+                proc = Process.Start(psi);
             }
 
             // See http://stackoverflow.com/questions/3456383/process-start-returns-null
