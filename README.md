@@ -7,7 +7,7 @@ requires one (commits, interactive rebase, etc).
 
 ## How to install (short version)
 
-# [Click This Link](https://github-gitpad.s3.amazonaws.com/GitPad.exe)
+# [Click This Link](https://github-gitpad.s3.amazonaws.com/GitPad.zip)
 
 ## Notepad sucks! What about $FAVORITE\_EDITOR instead?
 
