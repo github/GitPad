@@ -165,7 +165,9 @@ namespace Gitpad
                 ret.Append(ending);
             }
 
-            return ret.ToString();
+            // Don't add new lines to the end of the file.
+            string str = ret.ToString();
+            return str.Substring(0, str.Length - ending.Length);
         }
 
         public static unsafe bool IsProcessElevated()
