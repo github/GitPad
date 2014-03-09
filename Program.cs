@@ -31,7 +31,7 @@ namespace Gitpad
                     return -1;
                 }
 
-				if ( MessageBox.Show( "Do you want to use your default text editor as your commit editor?", 
+                if ( MessageBox.Show( "Do you want to use your default text editor as your commit editor?", 
                     "Installing GitPad", MessageBoxButtons.YesNo) != DialogResult.Yes)
                 {
                     return -1;
