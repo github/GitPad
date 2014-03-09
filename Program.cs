@@ -24,12 +24,12 @@ namespace Gitpad
         {
             if (args.Length == 0)
             {
-				if ( IsProcessElevated() )
-				{
-					MessageBox.Show( "Run this application as a normal user (not as Elevated Administrator)",
-									"App is Elevated", MessageBoxButtons.OK, MessageBoxIcon.Error );
-					return -1;
-				}
+                if ( IsProcessElevated() )
+                {
+                    MessageBox.Show( "Run this application as a normal user (not as Elevated Administrator)",
+                                    "App is Elevated", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    return -1;
+                }
 
 				if ( MessageBox.Show( "Do you want to use your default text editor as your commit editor?", 
                     "Installing GitPad", MessageBoxButtons.YesNo) != DialogResult.Yes)
@@ -50,8 +50,8 @@ namespace Gitpad
                 return 0;
             }
 
-			int ret = 0;
-			string fileData = null;
+            int ret = 0;
+            string fileData = null;
             string path = null;
             try
             {
