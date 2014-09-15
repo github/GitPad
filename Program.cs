@@ -27,13 +27,13 @@ namespace Gitpad
                 if (IsProcessElevated())
                 {
                     MessageBox.Show("Run this application as a normal user (not as Elevated Administrator)",
-                        "App is Elevated", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                        "App is Elevated", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return -1;
                 }
 
                 if (MessageBox.Show(
-                        "Do you want to use your default text editor as your commit editor?", 
-                        "Installing GitPad", MessageBoxButtons.YesNo) 
+                        "Do you want to use your default text editor as your commit editor?",
+                        "Installing GitPad", MessageBoxButtons.YesNo)
                     != DialogResult.Yes)
                 {
                     return -1;
@@ -48,11 +48,12 @@ namespace Gitpad
                 var dest = new FileInfo(Environment.ExpandEnvironmentVariables(@"%AppData%\GitPad\GitPad.exe"));
                 File.Copy(Assembly.GetExecutingAssembly().Location, dest.FullName, true);
 
-                Environment.SetEnvironmentVariable("EDITOR", "~/AppData/Roaming/GitPad/GitPad.exe", EnvironmentVariableTarget.User);
+                Environment.SetEnvironmentVariable("EDITOR", dest.FullName.Replace('\\', '/'), EnvironmentVariableTarget.User);
                 return 0;
             }
 
             int ret = 0;
+
             string fileData = null;
             string path = null;
             try
@@ -131,7 +132,7 @@ namespace Gitpad
 
         static void WriteStringToFile(string path, string fileData, LineEndingType lineType, bool emitUTF8Preamble)
         {
-            using(var of = File.Open(path, FileMode.Create))
+            using (var of = File.Open(path, FileMode.Create))
             {
                 var buf = Encoding.UTF8.GetBytes(ForceLineEndings(fileData, lineType));
                 if (emitUTF8Preamble)
@@ -145,7 +146,7 @@ namespace Gitpad
             var ret = new StringBuilder(fileData.Length);
 
             string ending;
-            switch(type)
+            switch (type)
             {
                 case LineEndingType.Windows:
                     ending = "\r\n";
@@ -174,7 +175,7 @@ namespace Gitpad
 
         public static unsafe bool IsProcessElevated()
         {
-            if (Environment.OSVersion.Version < new Version(6,0,0,0)) 
+            if (Environment.OSVersion.Version < new Version(6, 0, 0, 0))
             {
                 // Elevation is not a thing.
                 return false;
