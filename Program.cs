@@ -48,7 +48,7 @@ namespace Gitpad
                 var dest = new FileInfo(Environment.ExpandEnvironmentVariables(@"%AppData%\GitPad\GitPad.exe"));
                 File.Copy(Assembly.GetExecutingAssembly().Location, dest.FullName, true);
 
-                Environment.SetEnvironmentVariable("EDITOR", "~/AppData/Roaming/GitPad/GitPad.exe", EnvironmentVariableTarget.User);
+                Environment.SetEnvironmentVariable("EDITOR", dest.FullName.Replace('\\', '/'), EnvironmentVariableTarget.User);
                 return 0;
             }
 
