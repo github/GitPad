@@ -119,7 +119,6 @@ namespace Gitpad
             {
                 Console.Error.WriteLine(ex);
                 ret = -1;
-                goto bail;
             }
 
         bail:
