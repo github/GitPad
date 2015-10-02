@@ -170,7 +170,7 @@ namespace Gitpad
             return str.Substring(0, str.Length - ending.Length);
         }
 
-        public static unsafe bool IsProcessElevated()
+        public static bool IsProcessElevated()
         {
             if (Environment.OSVersion.Version < new Version(6,0,0,0)) 
             {
