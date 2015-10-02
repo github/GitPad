@@ -52,7 +52,7 @@ namespace Gitpad
             }
 
             int ret = 0;
-            string fileData = null;
+            string fileData;
             string path = null;
             try
             {
