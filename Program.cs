@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -53,7 +52,7 @@ namespace Gitpad
             }
 
             int ret = 0;
-            string fileData = null;
+            string fileData;
             string path = null;
             try
             {
@@ -120,11 +119,10 @@ namespace Gitpad
             {
                 Console.Error.WriteLine(ex);
                 ret = -1;
-                goto bail;
             }
 
         bail:
-            if (File.Exists(path))
+            if (path != null && File.Exists(path))
                 File.Delete(path);
             return ret;
         }
@@ -172,7 +170,7 @@ namespace Gitpad
             return str.Substring(0, str.Length - ending.Length);
         }
 
-        public static unsafe bool IsProcessElevated()
+        public static bool IsProcessElevated()
         {
             if (Environment.OSVersion.Version < new Version(6,0,0,0)) 
             {
