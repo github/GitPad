@@ -67,8 +67,9 @@ namespace Gitpad
                 goto bail;
             }
 
-            var psi = new ProcessStartInfo(path)
+            var psi = new ProcessStartInfo("notepad.exe")
             {
+                Arguments = path,
                 WindowStyle = ProcessWindowStyle.Normal,
                 UseShellExecute = true,
             };
