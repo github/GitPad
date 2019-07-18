@@ -1,4 +1,4 @@
-# GitPad.exe - Use Notepad as your Git commit editor
+# GitPad - Use Notepad as your Git commit editor
 
 This single executable allows you to use Notepad as your editor any time Git
 requires one (commits, interactive rebase, etc).
@@ -7,7 +7,7 @@ requires one (commits, interactive rebase, etc).
 
 ## How to install (short version)
 
-# [Click This Link](https://github.com/github/GitPad/releases/download/v1.4.0/Gitpad.zip)
+[Click This Link](https://github.com/github/GitPad/releases/download/v1.4.0/Gitpad.zip)
 
 ## Notepad sucks! What about $FAVORITE\_EDITOR instead?
 
